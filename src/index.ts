@@ -1,20 +1,7 @@
-import express from 'express';
-import helmet from 'helmet';
-import cors from 'cors';
-import morgan from 'morgan';
+import app from "./app";
 
-const PORT = process.env.PORT || '3000';
-
-const app = express();
-
-app.use(cors());
-app.use(helmet());
-app.use(morgan('dev'));
-
-app.use((req, res) => {
-  res.send('hello world!!!');
-});
+const PORT = process.env.PORT || "3000";
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Listen in http://localhost:${PORT}/`);
 });

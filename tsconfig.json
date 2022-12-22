@@ -6,13 +6,12 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": false,
-    "rootDir": ".",
+    "rootDir": "./",
     "strict": true,
     "noEmit": false,
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "outDir": "./dist",
-    "baseUrl": "."
   },
   "include": [
     "src/**/**.ts",
