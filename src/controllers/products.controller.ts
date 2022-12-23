@@ -1,15 +1,22 @@
-
-import { Request, Response } from "express";
-import { db } from "../db";
-import { CreateProductBody, GetProductByIdParam, TypedBodyRequest, TypedParamRequest, TypedRequest } from "./controllerTypes";
+import { Request, Response } from 'express';
+import { db } from '../db';
+import {
+  CreateProductBody,
+  GetProductByIdParam,
+  TypedBodyRequest,
+  TypedParamRequest
+} from './controllerTypes';
 
 export const getProducts = async (req: Request, res: Response) => {
   const products = await db.product.findMany();
   res.json(products);
 };
 
-export const getProductById = async (req: TypedParamRequest<GetProductByIdParam>, res: Response) => {
-  const {id} = req.params;
+export const getProductById = async (
+  req: TypedParamRequest<GetProductByIdParam>,
+  res: Response
+) => {
+  const { id } = req.params;
   try {
     const product = await db.product.findFirstOrThrow({
       where: {
@@ -18,20 +25,26 @@ export const getProductById = async (req: TypedParamRequest<GetProductByIdParam>
     });
     res.json(product);
   } catch (error) {
-    res.status(404).json({error});
+    res.status(404).json({ error });
   }
 };
 
-export const createProduct = async (req: TypedBodyRequest<CreateProductBody>, res: Response) => {
+export const createProduct = async (
+  req: TypedBodyRequest<CreateProductBody>,
+  res: Response
+) => {
   const product = await db.product.create({
     data: req.body
   });
-  
-  res.status(201).json({successful: true, product});
+
+  res.status(201).json({ successful: true, product });
 };
 
-export const updateProduct = async (req: Request<GetProductByIdParam, object, Partial<CreateProductBody>,object>, res: Response) =>{
-  const {id} = req.params;
+export const updateProduct = async (
+  req: Request<GetProductByIdParam, object, Partial<CreateProductBody>, object>,
+  res: Response
+) => {
+  const { id } = req.params;
   try {
     const updatedProduct = await db.product.update({
       where: {
@@ -48,12 +61,15 @@ export const updateProduct = async (req: Request<GetProductByIdParam, object, Pa
   }
 };
 
-export const deleteProduct = async (req: TypedParamRequest<GetProductByIdParam>, res: Response) => {
-  const {id} = req.params;
+export const deleteProduct = async (
+  req: TypedParamRequest<GetProductByIdParam>,
+  res: Response
+) => {
+  const { id } = req.params;
   try {
-    const deletedProduct = await db.product.delete({where: {id}});
+    const deletedProduct = await db.product.delete({ where: { id } });
     res.json(deletedProduct);
   } catch (error) {
-    res.status(500).json({succesfull: false, error});
+    res.status(500).json({ succesfull: false, error });
   }
 };
