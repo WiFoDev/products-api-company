@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
 import { db } from '../db';
+import { TypedBodyRequest, TypedParamRequest } from './types/request';
 import {
   CreateProduct,
   GetProductByIdParam,
-  TypedBodyRequest,
-  TypedParamRequest,
   UpdateProduct
-} from './controllerTypes';
+} from './types/product';
 
 export const getProducts = async (req: Request, res: Response) => {
   const products = await db.product.findMany();
