@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { db } from '../db';
 import {
-  CreateProductBody,
+  CreateProduct,
   GetProductByIdParam,
   TypedBodyRequest,
-  TypedParamRequest
+  TypedParamRequest,
+  UpdateProduct
 } from './controllerTypes';
 
 export const getProducts = async (req: Request, res: Response) => {
@@ -30,34 +31,40 @@ export const getProductById = async (
 };
 
 export const createProduct = async (
-  req: TypedBodyRequest<CreateProductBody>,
+  req: TypedBodyRequest<CreateProduct>,
   res: Response
 ) => {
-  const product = await db.product.create({
-    data: req.body
-  });
+  try {
+    const productData = CreateProduct.parse(req.body);
+    const product = await db.product.create({
+      data: productData
+    });
 
-  res.status(201).json({ successful: true, product });
+    res.status(201).json({ status: 'success', data: product });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error });
+  }
 };
 
 export const updateProduct = async (
-  req: Request<GetProductByIdParam, object, Partial<CreateProductBody>, object>,
+  req: Request<GetProductByIdParam, object, UpdateProduct, object>,
   res: Response
 ) => {
-  const { id } = req.params;
   try {
+    const { id } = req.params;
+    const productData = UpdateProduct.parse(req.body);
     const updatedProduct = await db.product.update({
       where: {
         id
       },
       data: {
-        ...req.body,
+        ...productData,
         updated_at: new Date()
       }
     });
     res.json(updatedProduct);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(400).send(error);
   }
 };
 
@@ -70,6 +77,6 @@ export const deleteProduct = async (
     const deletedProduct = await db.product.delete({ where: { id } });
     res.json(deletedProduct);
   } catch (error) {
-    res.status(500).json({ succesfull: false, error });
+    res.status(400).json({ succesfull: false, error });
   }
 };

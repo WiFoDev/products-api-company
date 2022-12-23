@@ -1,30 +1,41 @@
-import { Request } from "express";
-import {Query} from "express-serve-static-core";
+import { Request } from 'express';
+import { Query } from 'express-serve-static-core';
+import { z } from 'zod';
 
 export interface TypedBodyRequest<T> extends Request {
-  body: T
+  body: T;
 }
 
 export interface TypedQueryRequest<T extends Query> extends Request {
-  query: T
+  query: T;
 }
 
-export interface TypedParamRequest<T>{
-  params: T
+export interface TypedParamRequest<T> {
+  params: T;
 }
 
 export interface TypedRequest<T, U extends Query> extends Request {
-  body: T,
-  query: U
+  body: T;
+  query: U;
 }
 
-export interface CreateProductBody {
-  name: string,
-  category: string,
-  imgURL: string,
-  price: number
-}
+export const CreateProduct = z.object({
+  name: z.string(),
+  category: z.string(),
+  imgURL: z.string(),
+  price: z.number()
+});
 
-export interface GetProductByIdParam{ 
-  id: string
+export const UpdateProduct = z.object({
+  name: z.string().optional(),
+  category: z.string().optional(),
+  imgURL: z.string().optional(),
+  price: z.number().optional()
+});
+
+export type CreateProduct = z.infer<typeof CreateProduct>;
+export type UpdateProduct = z.infer<typeof UpdateProduct>;
+
+export interface GetProductByIdParam {
+  id: string;
 }
