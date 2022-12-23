@@ -3,8 +3,9 @@ import { Request, Response } from "express";
 import { db } from "../db";
 import { CreateProductBody, TypedRequest } from "./controllerTypes";
 
-export const getProducts = (req: Request, res: Response) => {
-  res.send("getting products");
+export const getProducts = async (req: Request, res: Response) => {
+  const products = await db.product.findMany();
+  res.json(products);
 };
 
 
