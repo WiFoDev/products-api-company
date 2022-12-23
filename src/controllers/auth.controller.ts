@@ -4,6 +4,7 @@ import { USerExistsException } from '../Exceptions/UserExistException';
 import { hashPassword } from '../utils/password';
 import { RegisterUser } from './types/auth';
 import { TypedBodyRequest } from './types/request';
+import { sign } from 'jsonwebtoken';
 
 export const register = async (
   req: TypedBodyRequest<RegisterUser>,
@@ -33,13 +34,14 @@ export const register = async (
     const user = await db.user.create({
       data: registerUser
     });
+
+    const token = sign({ id: user.id }, 'Meleck', {
+      expiresIn: 8400
+    });
     res.status(201).json({
       status: 'success',
       data: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role
+        token
       }
     });
   } catch (error) {
