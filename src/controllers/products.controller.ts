@@ -47,3 +47,13 @@ export const updateProduct = async (req: Request<GetProductByIdParam, object, Pa
     res.status(500).send(error);
   }
 };
+
+export const deleteProduct = async (req: TypedParamRequest<GetProductByIdParam>, res: Response) => {
+  const {id} = req.params;
+  try {
+    const deletedProduct = await db.product.delete({where: {id}});
+    res.json(deletedProduct);
+  } catch (error) {
+    res.status(500).json({succesfull: false, error});
+  }
+};
