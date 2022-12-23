@@ -6,6 +6,7 @@ import productsRoute from './routes/products.route';
 
 const app = express();
 
+app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
