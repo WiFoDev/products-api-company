@@ -1,11 +1,7 @@
 import { Request, Response } from 'express';
 import { db } from '../db';
-import { TypedBodyRequest, TypedParamRequest } from './types/request';
-import {
-  CreateProduct,
-  GetProductByIdParam,
-  UpdateProduct
-} from './types/product';
+import { TypedBodyRequest } from './types/request';
+import { CreateProduct, UpdateProduct } from './types/product';
 
 export const getProducts = async (req: Request, res: Response) => {
   const products = await db.product.findMany();
@@ -13,7 +9,7 @@ export const getProducts = async (req: Request, res: Response) => {
 };
 
 export const getProductById = async (
-  req: TypedParamRequest<GetProductByIdParam>,
+  req: Request<{ id: string }>,
   res: Response
 ) => {
   const { id } = req.params;
@@ -46,7 +42,7 @@ export const createProduct = async (
 };
 
 export const updateProduct = async (
-  req: Request<GetProductByIdParam, object, UpdateProduct, object>,
+  req: Request<{ id: string }, object, UpdateProduct, object>,
   res: Response
 ) => {
   try {
@@ -68,7 +64,7 @@ export const updateProduct = async (
 };
 
 export const deleteProduct = async (
-  req: TypedParamRequest<GetProductByIdParam>,
+  req: Request<{ id: string }>,
   res: Response
 ) => {
   const { id } = req.params;

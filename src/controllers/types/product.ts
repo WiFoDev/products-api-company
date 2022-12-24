@@ -14,9 +14,5 @@ export const UpdateProduct = z.object({
   price: z.number().optional()
 });
 
-export interface GetProductByIdParam {
-  id: string;
-}
-
 export type CreateProduct = z.infer<typeof CreateProduct>;
 export type UpdateProduct = z.infer<typeof UpdateProduct>;

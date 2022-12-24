@@ -8,12 +8,3 @@ export interface TypedBodyRequest<T> extends Request {
 export interface TypedQueryRequest<T extends Query> extends Request {
   query: T;
 }
-
-export interface TypedParamRequest<T> {
-  params: T;
-}
-
-export interface TypedRequest<T, U extends Query> extends Request {
-  body: T;
-  query: U;
-}
