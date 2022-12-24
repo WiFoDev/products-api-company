@@ -13,7 +13,7 @@ const router = Router();
 router.get('/', getProducts);
 router.get('/:id', getProductById);
 router.post('/', [verifyToken, isAdmin], createProduct);
-router.patch('/:id', updateProduct);
-router.delete('/:id', deleteProduct);
+router.patch('/:id', [verifyToken, isAdmin], updateProduct);
+router.delete('/:id', [verifyToken, isAdmin], deleteProduct);
 
 export default router;
